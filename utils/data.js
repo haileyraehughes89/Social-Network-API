@@ -8,4 +8,9 @@ const thoughtsData = [
   { thoughtText: "user2 thoughts here", username: "user2" },
 ];
 
-module.exports = { usersData, thoughtsData };
+const reactionsData = [
+  { reactionBody: "user1 reaction", username: "user1" },
+  { reactionBody: "user2 reaction", username: "user2" },
+];
+
+module.exports = { usersData, thoughtsData, reactionsData };

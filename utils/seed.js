@@ -1,7 +1,7 @@
 const connection = require("../config/connection");
 const User = require("../models/User");
 const Thought = require("../models/Thought");
-const { usersData, thoughtsData } = require("./data");
+const { usersData, thoughtsData, reactionsData } = require("./data");
 
 connection.once("open", async () => {
   console.log("connected");
@@ -20,31 +20,41 @@ connection.once("open", async () => {
     await connection.dropCollection("thoughts");
   }
 
-  const users = [];
-  const thoughts = [];
-  for (const userData of usersData) {
-    const { username, email } = userData;
-    users.push({
-      username,
-      email,
-    });
+  try {
+    const users = [];
+    for (const userData of usersData) {
+      const { username, email } = userData;
+      const user = await User.create({ username, email });
+      users.push(user);
+    }
+
+    const thoughts = [];
+    for (const thoughtData of thoughtsData) {
+      const { thoughtText, username } = thoughtData;
+
+      const user = users.find((user) => user.username === username);
+      if (!user) {
+        throw new Error(`User with username '${username}' not found.`);
+      }
+
+      const thought = await Thought.create({
+        thoughtText,
+        username,
+        user: user._id,
+      });
+      thoughts.push(thought);
+
+      user.thoughts.push(thought._id);
+      await user.save();
+    }
+
+    console.log("usersData:", users);
+    console.log("thoughtsData:", thoughts);
+
+    console.info("Seeding complete! 🌱");
+  } catch (err) {
+    console.error("Error seeding data:", err);
+  } finally {
+    process.exit(0);
   }
-
-  await User.insertMany(users);
-
-  for (const thoughtData of thoughtsData) {
-    const { thoughtText, createdAt, username } = thoughtData;
-    thoughts.push({
-      thoughtText,
-      createdAt,
-      username,
-    });
-  }
-
-  await Thought.insertMany(thoughts);
-
-  console.table(users);
-  console.table(thoughts);
-  console.info("Seeding complete! 🌱");
-  process.exit(0);
 });
