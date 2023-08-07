@@ -30,14 +30,14 @@ const userSchema = new Schema(
   }
 );
 userSchema
-  .virtual("getFriends")
+  .virtual("friendCount")
 
   .get(function () {
     return this.friends.length;
   });
 
 userSchema
-  .virtual("getThougths")
+  .virtual("thoughtCount")
 
   .get(function () {
     return this.thoughts.length;

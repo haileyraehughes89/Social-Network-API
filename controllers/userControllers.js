@@ -1,10 +1,10 @@
 const { ObjectId } = require("mongoose").Types;
-const Users = require("../models/User");
+const User = require("../models/User");
 
 module.exports = {
   async getUsers(req, res) {
     try {
-      const users = await Users.find();
+      const users = await User.find();
 
       const userObj = {
         users,
@@ -20,7 +20,7 @@ module.exports = {
   // Get a single user
   async getSingleUser(req, res) {
     try {
-      const user = await Users.findOne({ _id: req.params.userId }).select(
+      const user = await User.findOne({ _id: req.params.userId }).select(
         "-__v"
       );
 
@@ -30,6 +30,55 @@ module.exports = {
 
       res.json(user);
     } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  async createUser(req, res) {
+    try {
+      const user = await User.create(req.body);
+      res.json(user);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  async updateApplication(req, res) {
+    try {
+      const application = await Application.findOneAndUpdate(
+        { _id: req.params.applicationId },
+        { $set: req.body },
+        { runValidators: true, new: true }
+      );
+
+      if (!application) {
+        return res
+          .status(404)
+          .json({ message: "No application with this id!" });
+      }
+
+      res.json(application);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  },
+
+  async updateUser(req, res) {
+    try {
+      const user = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $set: req.body },
+        { runValidators: true, new: true }
+      );
+
+      if (!user) {
+        return res.status(404).json({ message: "No user with this id!" });
+      }
+
+      res.json(user);
+    } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   },
