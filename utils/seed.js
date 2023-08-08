@@ -1,7 +1,7 @@
 const connection = require("../config/connection");
 const User = require("../models/User");
-const Thought = require("../models/Thought");
-const { usersData, thoughtsData, reactionsData } = require("./data");
+const { Thought } = require("../models/Thought");
+const { usersData, thoughtsData } = require("./data");
 
 connection.once("open", async () => {
   console.log("connected");

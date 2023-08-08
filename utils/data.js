@@ -1,11 +1,14 @@
 const usersData = [
-  { username: "user1", email: "user1@email.com" },
-  { username: "user2", email: "user2@email.com" },
+  { username: "Swiftie1989", email: "Hailey@email.com" },
+  { username: "Hylian4", email: "Link@email.com" },
 ];
 
 const thoughtsData = [
-  { thoughtText: "user1 thoughts here", username: "user1" },
-  { thoughtText: "user2 thoughts here", username: "user2" },
+  { thoughtText: "I'm still swift af boi.", username: "Swiftie1989" },
+  {
+    thoughtText: "it really is exhausing saving the kingdom all the time.",
+    username: "Hylian4",
+  },
 ];
 
 const reactionsData = [
