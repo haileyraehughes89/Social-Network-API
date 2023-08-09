@@ -29,3 +29,11 @@ DELETE /api/thoughts/:thoughtId - Delete a thought by id
 POST /api/thoughts/:thoughtId/reactions/:reactionId - Add a reaction to a thought
 DELETE /api/thoughts/:thoughtId/reactions/:reactionId - Delete a reaction from a thought
 ```
+
+Technologies Used:
+```
+Node.js
+Express.js
+MongoDB
+Mongoose
+```
